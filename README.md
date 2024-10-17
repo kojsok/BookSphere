@@ -1,36 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BookSphere
 
-## Getting Started
+**BookSphere** — это веб-приложение, созданное для упрощения процесса записи на услуги и управления рабочим временем владельцев бизнеса. Приложение предоставляет возможность владельцам устанавливать свои часы работы, доступные услуги и управлять расписанием, чтобы клиенты могли легко выбрать удобное время и записаться на оказание услуг.
 
-First, run the development server:
+## Основные функции
+
+- **Регистрация и аутентификация**: Владельцы бизнеса и клиенты могут создавать аккаунты и безопасно входить в систему.
+- **Управление услугами**: Владельцы могут настраивать свои рабочие часы, добавлять доступные услуги и управлять своей доступностью.
+- **Онлайн-бронирование**: Клиенты могут просматривать доступные услуги, выбирать удобные дату и время для записи и бронировать визиты онлайн.
+- **Уведомления**: Автоматические уведомления информируют клиентов и владельцев о подтверждении записи и предстоящих визитах.
+
+## Для владельцев
+
+- Настройте свои рабочие часы.
+- Добавьте список предлагаемых вами услуг.
+- Управляйте своими записями и расписанием.
+- Получайте уведомления о подтверждениях и предстоящих бронированиях.
+
+## Для клиентов
+
+- Найдите подходящих владельцев и услуги.
+- Легко выберите удобные дату и время для записи.
+- Получайте уведомления о подтверждении визита и приближении времени записи.
+
+## Начало работы
+
+Чтобы начать работу с **BookSphere**, клонируйте репозиторий и выполните следующие команды для установки и запуска:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+git clone https://github.com/your-repo/BookSphere.git
+cd BookSphere
+npm install
+npm start

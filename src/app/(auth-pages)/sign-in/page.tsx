@@ -8,14 +8,14 @@ import Link from "next/link";
 export default function Login({ searchParams }: { searchParams: Message }) {
   return (
     <form className="flex-1 flex flex-col min-w-64">
-      <h1 className="text-2xl font-medium">Sign in</h1>
+      <h1 className="text-2xl font-medium">Войти</h1>
       <p className="text-sm text-foreground">
-        Dont have an account?{" "}
+        Нет аккаунта?{" "}
         <Link
           className="text-foreground font-medium underline"
           href="/sign-up"
         >
-          Sign up
+          Зарегистрироваться
         </Link>
       </p>
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
@@ -29,14 +29,14 @@ export default function Login({ searchParams }: { searchParams: Message }) {
           required
         />
         <SubmitButton pendingText="Signing In..." formAction={signInAction}>
-          Sign in
+          Войти
         </SubmitButton>
         <p className="text-sm text-foreground">
           <Link
             className="text-foreground font-medium underline"
             href="/recover-password"
           >
-            Forgot password?
+            Забыли пароль?
           </Link>
         </p>
         <FormMessage message={searchParams} />

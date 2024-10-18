@@ -15,17 +15,21 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
   }
 
   return (
-    <form className="flex flex-col min-w-64 max-w-64 mx-auto">
-      <h1 className="text-2xl font-medium">Зарегистрироваться</h1>
-      <p className="text-sm text text-foreground">
-        Уже есть аккаунт?{" "}
-        <Link className="text-primary font-medium underline" href="/sign-in">
-          Войти
-        </Link>
-      </p>
+    <form className="flex flex-col min-w-64 max-w-md mx-auto border border-gray-300 p-6 rounded-lg shadow-md">
+      <h1 className="text-2xl font-semibold text-center">Зарегистрироваться</h1>
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
         <Label htmlFor="email">Email</Label>
         <Input name="email" placeholder="you@example.com" required />
+
+        <Label htmlFor="name">Имя</Label>
+        <Input name="name" placeholder="Your Name" required />
+
+        <Label htmlFor="role">Роль</Label>
+        <select name="role" className="border rounded p-2" required>
+          <option value="client">Клиент</option>
+          <option value="owner">Владелец бизнеса</option>
+        </select>
+
         <Label htmlFor="password">Password</Label>
         <Input
           type="password"
@@ -34,7 +38,8 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
           minLength={6}
           required
         />
-        <Label htmlFor="password">Confirm password</Label>
+
+        <Label htmlFor="password_confirmation">Confirm password</Label>
         <Input
           type="password"
           name="password_confirmation"
@@ -42,12 +47,20 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
           minLength={6}
           required
         />
+
         <SubmitButton formAction={signUpAction} pendingText="Signing up...">
           Зарегистрироваться
         </SubmitButton>
+
+        <p className="text-xs text-gray-500 text-center mt-2">
+          Уже есть аккаунт?{" "}
+          <Link className="text-blue-600 font-medium underline ml-1" href="/sign-in">
+            Войти
+          </Link>
+        </p>
+
         <FormMessage message={searchParams} />
       </div>
     </form>
   );
 }
-

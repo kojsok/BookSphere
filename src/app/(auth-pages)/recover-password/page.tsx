@@ -11,17 +11,10 @@ export default function RecoverPassword({
   searchParams: Message;
 }) {
   return (
-    <form className="flex-1 flex flex-col min-w-64">
-      <h1 className="text-2xl font-medium">Recover password</h1>
-      <p className="text-sm text-foreground">
-        Dont have an account?{" "}
-        <Link
-          className="text-foreground font-medium underline"
-          href="/sign-up"
-        >
-          Sign up
-        </Link>
-      </p>
+    <form className="flex-1 flex flex-col min-w-64 max-w-md mx-auto border border-gray-300 p-6 rounded-lg shadow-md">
+      <h1 className="text-2xl font-semibold text-center">Восcтановить пароль</h1>
+
+
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
         <Label htmlFor="email">Email</Label>
         <Input
@@ -30,12 +23,17 @@ export default function RecoverPassword({
           minLength={6}
           required
         />
-        <SubmitButton
-          pendingText="Recovering In..."
-          formAction={requestOTPAction}
-        >
-          Recover password
+
+        <SubmitButton pendingText="Recovering..." formAction={requestOTPAction}>
+          Восcтановить пароль
         </SubmitButton>
+        <p className="text-xs text-gray-500 text-center mt-2">
+          Нет аккаунта?{" "}
+          <Link className="text-blue-600 font-medium underline ml-1" href="/sign-up">
+            Зарегистрироваться
+          </Link>
+        </p>
+
         <FormMessage message={searchParams} />
       </div>
     </form>

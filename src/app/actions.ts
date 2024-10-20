@@ -108,7 +108,7 @@ import { redirect } from "next/navigation";
 //   return encodedRedirect("success", "/sign-up", "Thanks for signing up! Please check your email for a verification link.");
 // };
 
-
+//TODO разбираюсь и правлю
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;

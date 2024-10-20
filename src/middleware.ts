@@ -1,39 +1,138 @@
-import { type NextRequest, NextResponse } from 'next/server'
-import { updateSession } from '@/utils/supabase/middleware'
+import { type NextRequest, NextResponse } from 'next/server';
+import { updateSession } from '@/utils/supabase/middleware';
 import { createClient } from '@/utils/supabase/server';
-// import { createClient } from './utils/supabase/server';
 
 export async function middleware(request: NextRequest) {
-  // Обновляем сессию пользователя
-  // const supabase = createClient()
-  // const { data: session } = await supabase.auth.getSession()
-  
-  const session = await updateSession(request)
-  console.log('Middleware is working:', request.url)
-  console.log('Session:', session);
+  const urlPath = request.nextUrl.pathname;
 
-  const supabase = createClient()
-  // Получаем информацию о пользователе из supabaseResponse
-  const {data: { user },} = await supabase.auth.getUser() // Измените это, если метод получения пользователя другой
-    console.log('User:', user);
-
-  // Проверяем авторизацию для всех маршрутов, начинающихся с /admin
-  if (!session.ok && request.nextUrl.pathname.startsWith('/admin')) {
-    // Если пользователь не авторизован, перенаправляем на страницу входа
-    const loginUrl = new URL('/sign-in', request.url)
-    return NextResponse.redirect(loginUrl)
+  // Исключаем маршруты, которые не требуют авторизации
+  if (
+    urlPath.startsWith('/sign-up') ||
+    urlPath.startsWith('/sign-in') ||
+    urlPath.startsWith('/verify-email') ||
+    urlPath.startsWith('/recover-password') ||
+    urlPath.startsWith('/reset-password')
+  ) {
+    return NextResponse.next(); // Пропускаем middleware для этих маршрутов
   }
 
-  // Если авторизован или маршрут не требует авторизации, продолжаем
-  return NextResponse.next()
+  // Обновляем сессию пользователя
+  const session = await updateSession(request);
+  console.log('Middleware is working:', request.url);
+  console.log('Session:', session);
+
+  const supabase = createClient();
+
+  // Получаем информацию о пользователе
+  const { data: { user } } = await supabase.auth.getUser();
+  console.log('User:', user);
+
+  // Если пользователь найден, но email не подтвержден
+  if (user && !user.email_confirmed_at) {
+    console.log('Email not confirmed for user:', user.email);
+    const verifyEmailUrl = new URL('/verify-email', request.url);
+    return NextResponse.redirect(verifyEmailUrl);
+  }
+
+  // Проверяем авторизацию для всех маршрутов, начинающихся с /admin
+  if (!session.ok && urlPath.startsWith('/admin')) {
+    const loginUrl = new URL('/sign-in', request.url);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    /*
-     * Проверка всех маршрутов, которые начинаются с /admin
-     */
-    '/admin/:path*', // это добавляет поддержку всех маршрутов после /admin/
+    '/admin/:path*',
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
-}
+};
+
+
+
+
+
+//!работает но не ждем авторизацию по емайл
+// import { type NextRequest, NextResponse } from 'next/server'
+// import { updateSession } from '@/utils/supabase/middleware'
+// import { createClient } from '@/utils/supabase/server'
+
+// export async function middleware(request: NextRequest) {
+//   const urlPath = request.nextUrl.pathname;
+  
+//   // Исключаем маршруты, которые не требуют авторизации (например, /sign-up, /sign-in)
+//   if (urlPath.startsWith('/sign-up') || urlPath.startsWith('/sign-in')) {
+//     return NextResponse.next(); // Пропускаем middleware для этих маршрутов
+//   }
+
+//   // Обновляем сессию пользователя
+//   const session = await updateSession(request)
+//   console.log('Middleware is working:', request.url)
+//   console.log('Session:', session);
+
+//   const supabase = createClient();
+  
+//   // Получаем информацию о пользователе
+//   const { data: { user } } = await supabase.auth.getUser();
+//   console.log('User:', user);
+
+//   // Проверяем авторизацию для всех маршрутов, начинающихся с /admin
+//   if (!session.ok && urlPath.startsWith('/admin')) {
+//     // Если пользователь не авторизован, перенаправляем на страницу входа
+//     const loginUrl = new URL('/sign-in', request.url);
+//     return NextResponse.redirect(loginUrl);
+//   }
+
+//   // Если пользователь авторизован или маршрут не требует авторизации, продолжаем
+//   return NextResponse.next();
+// }
+
+// export const config = {
+//   matcher: [
+//     '/admin/:path*',
+//     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)', 
+//   ],
+// };
+
+
+// import { type NextRequest, NextResponse } from 'next/server'
+// import { updateSession } from '@/utils/supabase/middleware'
+// import { createClient } from '@/utils/supabase/server';
+// // import { createClient } from './utils/supabase/server';
+
+// export async function middleware(request: NextRequest) {
+//   // Обновляем сессию пользователя
+//   // const supabase = createClient()
+//   // const { data: session } = await supabase.auth.getSession()
+  
+//   const session = await updateSession(request)
+//   console.log('Middleware is working:', request.url)
+//   console.log('Session:', session);
+
+//   const supabase = createClient()
+//   // Получаем информацию о пользователе из supabaseResponse
+//   const {data: { user },} = await supabase.auth.getUser() // Измените это, если метод получения пользователя другой
+//     console.log('User:', user);
+
+//   // Проверяем авторизацию для всех маршрутов, начинающихся с /admin
+//   if (!session.ok && request.nextUrl.pathname.startsWith('/admin')) {
+//     // Если пользователь не авторизован, перенаправляем на страницу входа
+//     const loginUrl = new URL('/sign-in', request.url)
+//     return NextResponse.redirect(loginUrl)
+//   }
+
+//   // Если авторизован или маршрут не требует авторизации, продолжаем
+//   return NextResponse.next()
+// }
+
+// export const config = {
+//   matcher: [
+//     /*
+//      * Проверка всех маршрутов, которые начинаются с /admin
+//      */
+//     '/admin/:path*', // это добавляет поддержку всех маршрутов после /admin/
+//     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+//   ],
+// }

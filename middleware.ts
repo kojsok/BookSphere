@@ -1,25 +1,173 @@
-import { type NextRequest } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 import { updateSession } from '@/utils/supabase/middleware'
+import { createClient } from '@/utils/supabase/server'
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request)
+  const urlPath = request.nextUrl.pathname;
+  
+  // Исключаем маршруты, которые не требуют авторизации (например, /sign-up, /sign-in)
+  if (urlPath.startsWith('/sign-up') || urlPath.startsWith('/sign-in')) {
+    return NextResponse.next(); // Пропускаем middleware для этих маршрутов
+  }
+
+  // Обновляем сессию пользователя
+  const session = await updateSession(request)
+  console.log('Middleware is working:', request.url)
+  console.log('Session:', session);
+
+  const supabase = createClient();
+  
+  // Получаем информацию о пользователе
+  const { data: { user } } = await supabase.auth.getUser();
+  console.log('User:', user);
+
+  // Проверяем авторизацию для всех маршрутов, начинающихся с /admin
+  if (!session.ok && urlPath.startsWith('/admin')) {
+    // Если пользователь не авторизован, перенаправляем на страницу входа
+    const loginUrl = new URL('/sign-in', request.url);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // Если пользователь авторизован или маршрут не требует авторизации, продолжаем
+  return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/admin/:path*',
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)', 
   ],
-}
+};
 
 
 
+
+// //работает но ломает авторизацию
+// import { type NextRequest, NextResponse } from 'next/server'
+// import { updateSession } from '@/utils/supabase/middleware'
+// import { createClient } from '@/utils/supabase/server';
+// // import { createClient } from './utils/supabase/server';
+
+// export async function middleware(request: NextRequest) {
+//   // Обновляем сессию пользователя
+//   // const supabase = createClient()
+//   // const { data: session } = await supabase.auth.getSession()
+  
+//   const session = await updateSession(request)
+//   console.log('Middleware is working:', request.url)
+//   console.log('Session:', session);
+
+//   const supabase = createClient()
+//   // Получаем информацию о пользователе из supabaseResponse
+//   const {data: { user },} = await supabase.auth.getUser() // Измените это, если метод получения пользователя другой
+//     console.log('User:', user);
+
+//   // Проверяем авторизацию для всех маршрутов, начинающихся с /admin
+//   if (!session.ok && request.nextUrl.pathname.startsWith('/admin')) {
+//     // Если пользователь не авторизован, перенаправляем на страницу входа
+//     const loginUrl = new URL('/sign-in', request.url)
+//     return NextResponse.redirect(loginUrl)
+//   }
+
+//   // Если авторизован или маршрут не требует авторизации, продолжаем
+//   return NextResponse.next()
+// }
+
+// export const config = {
+//   matcher: [
+//     /*
+//      * Проверка всех маршрутов, которые начинаются с /admin
+//      */
+//     '/admin/:path*', // это добавляет поддержку всех маршрутов после /admin/
+//     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+//   ],
+// }
+
+//!исходник
+// import { type NextRequest } from 'next/server'
+// import { updateSession } from '@/utils/supabase/middleware'
+
+// export async function middleware(request: NextRequest) {
+//   return await updateSession(request)
+// }
+
+// export const config = {
+//   matcher: [
+//     /*
+//      * Match all request paths except for the ones starting with:
+//      * - _next/static (static files)
+//      * - _next/image (image optimization files)
+//      * - favicon.ico (favicon file)
+//      * Feel free to modify this pattern to include more paths.
+//      */
+//     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+//   ],
+// }
+
+
+
+
+//!проверить 
+// import { type NextRequest, NextResponse } from 'next/server'
+// import { updateSession } from '@/utils/supabase/middleware'
+// // import { createClient } from '@/utils/supabase/server'
+
+
+
+
+// export async function middleware(request: NextRequest) {
+//   // Обновляем сессию пользователя
+//   // const supabase = createClient()
+//   // const { data: session } = await supabase.auth.getSession()
+  
+//   const session = await updateSession(request)
+//   console.log('Middleware triggered:', request.url)
+//   console.log('Session:', session);
+
+//   // Проверяем авторизацию для всех маршрутов, начинающихся с /admin
+//   if (!session && request.nextUrl.pathname.startsWith('/admin')) {
+//     // Если пользователь не авторизован, перенаправляем на страницу входа
+//     const loginUrl = new URL('/sign-in', request.url)
+//     return NextResponse.redirect(loginUrl)
+//   }
+
+//   // Если авторизован или маршрут не требует авторизации, продолжаем
+//   return NextResponse.next()
+// }
+
+// export const config = {
+//   matcher: [
+//     /*
+//      * Проверка всех маршрутов, которые начинаются с /admin
+//      */
+//     '/admin/:path*', // это добавляет поддержку всех маршрутов после /admin/
+//     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+//   ],
+// }
+
+//!исходник
+// import { type NextRequest } from 'next/server'
+// import { updateSession } from '@/utils/supabase/middleware'
+
+// export async function middleware(request: NextRequest) {
+//   return await updateSession(request)
+// }
+
+// export const config = {
+//   matcher: [
+//     /*
+//      * Match all request paths except for the ones starting with:
+//      * - _next/static (static files)
+//      * - _next/image (image optimization files)
+//      * - favicon.ico (favicon file)
+//      * Feel free to modify this pattern to include more paths.
+//      */
+//     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+//   ],
+// }
+
+
+//!TODO пример но не проверил
 // import { NextResponse } from 'next/server';
 // import { createMiddlewareSupabaseClient } from '@supabase/auth-helpers-nextjs';
 // import { NextRequest } from 'next/server';

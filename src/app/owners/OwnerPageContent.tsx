@@ -44,9 +44,9 @@ export default function OwnerPageContent({ user, role }: OwnerPageContentProps) 
     return (
         <div className="flex flex-row md:flex-row h-screen w-full">
             {/* Sidebar */}
-            <div className={cn("transition-all duration-300 shadow-md", isSidebarOpen ? "w-48 md:w-48" : "w-16", "sm:block hidden")}>
+            <div className={cn("p-4 transition-all duration-300 shadow-md", isSidebarOpen ? "w-48 md:w-48" : "w-16", "sm:block hidden")}>
                 {/* Sidebar header */}
-                <div className={cn(isSidebarOpen ? "flex gap-10 justify-start items-center" : "flex justify-center")}>
+                <div className={cn(isSidebarOpen ? "flex gap-4 justify-start items-center" : "flex justify-center")}>
                     <h1 className={cn(isSidebarOpen ? "block" : "hidden", "text-lg font-bold")}>BookSphera</h1>
                     <Button variant="ghost" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                         {isSidebarOpen ? <X /> : <Menu />}
@@ -91,7 +91,7 @@ export default function OwnerPageContent({ user, role }: OwnerPageContentProps) 
             {/* Bottom mobile menu */}
             <div className="fixed bottom-0 w-full sm:hidden border-t-2">
                 <TooltipProvider>
-                    <div className="flex gap-16 p-4 justify-center items-center">
+                    <div className="flex gap-8 md:gap-16 p-4 justify-between items-center">
                     <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button variant="ghost" size="icon" >

@@ -13,7 +13,7 @@ export default async function AuthButton() {
   if (!hasEnvVars) {
     return (
       <>
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-2 items-center">
           <div>
             <Badge
               variant={"default"}
@@ -47,17 +47,17 @@ export default async function AuthButton() {
     );
   }
   return user ? (
-    <div className="flex items-center gap-4">
-      Привет, {user.email}!
+    <div className="flex items-center gap-2 text-sm">
+      <span className="hidden sm:inline">Привет, {user.email}!</span>
       <form action={signOutAction}>
-        <Button type="submit" variant={"outline"}>
+        <Button type="submit" variant={"ghost"}>
           Выйти
         </Button>
       </form>
     </div>
   ) : (
     <div className="flex gap-2">
-      <Button asChild size="sm" variant={"outline"}>
+      <Button asChild size="sm" variant={"ghost"}>
         <Link href="/sign-in">Войти</Link>
       </Button>
       {/* <Button asChild size="sm" variant={"default"}>

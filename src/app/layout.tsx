@@ -23,7 +23,7 @@ export default function RootLayout({children,}: {children: React.ReactNode;}) {
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen w-full flex flex-col items-center">
+          <main className="h-screen w-full max-w-full flex flex-col items-center">
             <div className="flex-1 w-full flex flex-col gap-1 items-center">
               <Navbar />
               <div className="flex w-full h-screen flex-col gap-5 items-center">

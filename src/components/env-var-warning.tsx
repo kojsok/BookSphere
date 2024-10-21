@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 
 export function EnvVarWarning() {
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-2 items-center">
       <Badge variant={"outline"} className="font-normal">
         Environment variables required
       </Badge>
@@ -12,13 +12,13 @@ export function EnvVarWarning() {
         <Button
           asChild
           size="sm"
-          variant={"outline"}
+          variant={"ghost"}
           disabled
           className="opacity-75 cursor-none pointer-events-none"
         >
           <Link href="/sign-in">Войти</Link>
         </Button>
-        <Button
+        {/* <Button
           asChild
           size="sm"
           variant={"default"}
@@ -26,7 +26,7 @@ export function EnvVarWarning() {
           className="opacity-75 cursor-none pointer-events-none"
         >
           <Link href="/sign-up">Зарегистрироваться</Link>
-        </Button>
+        </Button> */}
       </div>
     </div>
   );

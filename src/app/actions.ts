@@ -5,109 +5,6 @@ import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-// Действие для регистрации пользователя
-// export const signUpAction = async (formData: FormData) => {
-//   const email = formData.get("email") as string;
-//   const password = formData.get("password") as string;
-//   const passwordConfirmation = formData.get("password_confirmation") as string;
-//   const supabase = createClient();
-//   const origin = headers().get("origin");
-
-//   // Проверка на наличие обязательных полей
-//   if (!email || !password || !passwordConfirmation) {
-//     return encodedRedirect("error", "/sign-up", "Email and password are required");
-//   }
-
-//   // Валидация email
-//   if (!validateEmail(email)) {
-//     return encodedRedirect("error", "/sign-up", "Email is not valid");
-//   }
-
-//   // Проверка совпадения пароля и его подтверждения
-//   if (password !== passwordConfirmation) {
-//     return encodedRedirect("error", "/sign-up", "Incorrect password confirmation");
-//   }
-
-//   // Регистрация пользователя через Supabase
-//   const { error } = await supabase.auth.signUp({
-//     email,
-//     password,
-//     options: {
-//       emailRedirectTo: `${origin}/auth/callback`, // Перенаправление после подтверждения
-//     },
-//   });
-
-//   // Обработка ошибок при регистрации
-//   if (error) {
-//     console.error(`${error.code} ${error.message}`);
-//     return encodedRedirect("error", "/sign-up", error.message);
-//   } 
-
-//   // Успешная регистрация, отправка уведомления
-//   return encodedRedirect("success", "/sign-up", "Thanks for signing up! Please check your email for a verification link.");
-// };
-
-//Действие для регистрации пользователя и добавление в базу данных
-// export const signUpAction = async (formData: FormData) => {
-//   const email = formData.get("email") as string;
-//   const password = formData.get("password") as string;
-//   const passwordConfirmation = formData.get("password_confirmation") as string;
-//   const name = formData.get("name") as string; // Получаем имя из формы
-//   const role = formData.get("role") as string; // Получаем роль из формы
-//   const supabase = createClient();
-//   const origin = headers().get("origin");
-
-//   // Проверка на наличие обязательных полей
-//   if (!email || !password || !passwordConfirmation || !name || !role) {
-//     return encodedRedirect("error", "/sign-up", "All fields are required");
-//   }
-
-//   // Валидация email
-//   if (!validateEmail(email)) {
-//     return encodedRedirect("error", "/sign-up", "Email is not valid");
-//   }
-
-//   // Проверка совпадения пароля и его подтверждения
-//   if (password !== passwordConfirmation) {
-//     return encodedRedirect("error", "/sign-up", "Incorrect password confirmation");
-//   }
-
-//   // Регистрация пользователя через Supabase Auth
-//   const { data: authData, error: authError } = await supabase.auth.signUp({
-//     email,
-//     password,
-//     options: {
-//       emailRedirectTo: `${origin}/auth/callback`, // Перенаправление после подтверждения
-//     },
-//   });
-
-//   // Обработка ошибок при регистрации
-//   if (authError) {
-//     console.error(`${authError.code} ${authError.message}`);
-//     return encodedRedirect("error", "/sign-up", authError.message);
-//   }
-
-//   // Если регистрация успешна, добавляем пользователя в таблицу `users`
-//   const { error: insertError } = await supabase
-//     .from("users")
-//     .insert({
-//       id: authData.user?.id, // UUID пользователя из Supabase Auth
-//       email,
-//       name,
-//       role,
-//       created_at: new Date().toISOString(), // Дата создания
-//     });
-
-//   // Обработка ошибок при добавлении в таблицу `users`
-//   if (insertError) {
-//     console.error(`${insertError.code} ${insertError.message}`);
-//     return encodedRedirect("error", "/sign-up", insertError.message);
-//   }
-
-//   // Успешная регистрация, отправка уведомления
-//   return encodedRedirect("success", "/sign-up", "Thanks for signing up! Please check your email for a verification link.");
-// };
-
 //TODO разбираюсь и правлю
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email") as string;
@@ -120,20 +17,20 @@ export const signUpAction = async (formData: FormData) => {
 
   // Проверка на наличие обязательных полей
   if (!email || !password || !passwordConfirmation || !name || !role) {
-    return encodedRedirect("error", "/sign-up", "All fields are required");
+    return encodedRedirect("error", "/sign-up", "Все поля должны быть заполненын");
   }
 
   // Валидация email
   if (!validateEmail(email)) {
-    return encodedRedirect("error", "/sign-up", "Email is not valid");
+    return encodedRedirect("error", "/sign-up", "Ваша почта не правильная");
   }
 
   // Проверка совпадения пароля и его подтверждения
   if (password !== passwordConfirmation) {
-    return encodedRedirect("error", "/sign-up", "Incorrect password confirmation");
+    return encodedRedirect("error", "/sign-up", "Неверное подтверждение пароля");
   }
 
-  // Проверка существующего пользователя
+  // Проверка существующего пользователя в базе данных
   const { data: existingUser, error: fetchError } = await supabase
     .from('users')
     .select('id')
@@ -150,7 +47,7 @@ export const signUpAction = async (formData: FormData) => {
     }
   } else {
     // Пользователь найден
-    return encodedRedirect("error", "/sign-up", "User already exists with this email.");
+    return encodedRedirect("error", "/sign-up", "Пользователь с этим адресом электронной почты уже существует.");
   }
   
   // Регистрация пользователя через Supabase Auth
@@ -176,7 +73,7 @@ export const signUpAction = async (formData: FormData) => {
       email,
       name,
       role,
-      password, // Сохраняем пароль (учтите безопасность хранения)
+      password, // Сохраняем пароль (учесть безопасность хранения)
       created_at: new Date().toISOString(), // Дата создания
     });
 
@@ -205,91 +102,17 @@ export const signUpAction = async (formData: FormData) => {
   }
 
   // Успешная регистрация, отправка уведомления
-  return encodedRedirect("success", "/sign-up", "Thanks for signing up! Please check your email for a verification link.");
+  // return encodedRedirect("success", "/sign-up", "Регистрация прошла успешно!");
+  if (role === 'owner') {
+    return encodedRedirect("success", "/owners", "Регистрация прошла успешно!");
+  } else if (role === 'client') {
+    return encodedRedirect("success", "/clients", "Регистрация прошла успешно!");
+  }
+  return encodedRedirect("success", "/", "Регистрация прошла успешно!");
 };
 
-//!!пробный
-// export const signUpAction = async (formData: FormData) => {
-//   const email = formData.get("email") as string;
-//   const password = formData.get("password") as string;
-//   const passwordConfirmation = formData.get("password_confirmation") as string;
-//   const name = formData.get("name") as string; // Получаем имя из формы
-//   const role = formData.get("role") as string; // Получаем роль из формы
-//   const supabase = createClient();
-//   const origin = headers().get("origin");
-
-//   // Проверка на наличие обязательных полей
-//   if (!email || !password || !passwordConfirmation || !name || !role) {
-//     return encodedRedirect("error", "/sign-up", "All fields are required");
-//   }
-
-//   // Валидация email
-//   if (!validateEmail(email)) {
-//     return encodedRedirect("error", "/sign-up", "Email is not valid");
-//   }
-
-//   // Проверка совпадения пароля и его подтверждения
-//   if (password !== passwordConfirmation) {
-//     return encodedRedirect("error", "/sign-up", "Incorrect password confirmation");
-//   }
-
-//   // Регистрация пользователя через Supabase Auth
-//   const { data: authData, error: authError } = await supabase.auth.signUp({
-//     email,
-//     password,
-//     options: {
-//       emailRedirectTo: `${origin}/auth/callback`, // Перенаправление после подтверждения
-//     },
-//   });
-
-//   // Обработка ошибок при регистрации
-//   if (authError) {
-//     console.error(`${authError.code} ${authError.message}`);
-//     return encodedRedirect("error", "/sign-up", authError.message);
-//   }
-
-//   // Если регистрация успешна, добавляем пользователя в таблицу `users`, включая пароль
-//   const { error: insertError } = await supabase
-//     .from("users")
-//     .insert({
-//       id: authData.user?.id, // UUID пользователя из Supabase Auth
-//       email,
-//       name,
-//       role,
-//       password, // Сохраняем пароль (учтите безопасность хранения)
-//       created_at: new Date().toISOString(), // Дата создания
-//     });
-
-//   // Обработка ошибок при добавлении в таблицу `users`
-//   if (insertError) {
-//     console.error(`${insertError.code} ${insertError.message}`);
-//     return encodedRedirect("error", "/sign-up", insertError.message);
-//   }
-
-//   // Если роль "owner", добавляем данные в таблицу `owners`
-//   if (role === 'owner') {
-//     const { error: ownerInsertError } = await supabase
-//       .from("owners")
-//       .insert({
-//         id: authData.user?.id, // UUID пользователя из Supabase Auth
-//         email,
-//         name,
-//         created_at: new Date().toISOString(),
-//       });
-
-//     // Обработка ошибок при добавлении в таблицу `owners`
-//     if (ownerInsertError) {
-//       console.error(`${ownerInsertError.code} ${ownerInsertError.message}`);
-//       return encodedRedirect("error", "/sign-up", ownerInsertError.message);
-//     }
-//   }
-
-//   // Успешная регистрация, отправка уведомления
-//   return encodedRedirect("success", "/sign-up", "Thanks for signing up! Please check your email for a verification link.");
-// };
 
 
-//!пробный вариант
 export const signInAction = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -297,7 +120,7 @@ export const signInAction = async (formData: FormData) => {
 
   // Проверка на наличие email и пароля
   if (!email || !password) {
-    return encodedRedirect("error", "/sign-in", "Email and password are required");
+    return encodedRedirect("error", "/sign-in", "Требуется адрес электронной почты и пароль");
   }
 
   // Вход пользователя через Supabase
@@ -313,7 +136,7 @@ export const signInAction = async (formData: FormData) => {
 
   // Проверка наличия пользователя после успешного входа
   if (!authData.user) {
-    return encodedRedirect("error", "/sign-in", "User not found.");
+    return encodedRedirect("error", "/sign-in", "Пользователь не найден.");
   }
 
   // Логирование для отладки
@@ -332,7 +155,7 @@ export const signInAction = async (formData: FormData) => {
 
   // Обработка ошибок при запросе данных пользователя
   if (userError || !user) {
-    return encodedRedirect("error", "/sign-in", "Failed to retrieve user role.");
+    return encodedRedirect("error", "/sign-in", "Не удалось получить роль пользователя.");
   }
 
   // Перенаправление в зависимости от роли пользователя
@@ -357,12 +180,12 @@ export const requestOTPAction = async (formData: FormData) => {
 
   // Проверка на наличие email
   if (!email) {
-    return encodedRedirect("error", "/recover-password", "Email is required");
+    return encodedRedirect("error", "/recover-password", "Требуется электронная почта");
   }
 
   // Валидация email
   if (!validateEmail(email)) {
-    return encodedRedirect("error", "/recover-password", "Email is not valid");
+    return encodedRedirect("error", "/recover-password", "Электронная почта недействительна");
   }
 
   // Отправка одноразового пароля (OTP) на email
@@ -380,7 +203,7 @@ export const requestOTPAction = async (formData: FormData) => {
   }
 
   // Успешная отправка OTP, уведомление пользователя
-  return encodedRedirect("success", "/reset-password", "One time password has been sent to email, please check", { email });
+  return encodedRedirect("success", "/reset-password", "Одноразовый пароль был отправлен на электронную почту, пожалуйста, проверьте", { email });
 };
 
 // Действие для восстановления пароля
@@ -395,17 +218,17 @@ export const recoverPassAction = async (formData: FormData) => {
 
   // Проверка на наличие обязательных полей
   if (!email || !code || !newPassword || !passwordConfirmation) {
-    return encodedRedirect("error", "/reset-password", "Email, password and code are required");
+    return encodedRedirect("error", "/reset-password", "Требуется адрес электронной почты, пароль и код.");
   }
 
   // Проверка совпадения пароля и его подтверждения
   if (newPassword !== passwordConfirmation) {
-    return encodedRedirect("error", "/reset-password", "Incorrect password confirmation");
+    return encodedRedirect("error", "/reset-password", "Неверное подтверждение пароля");
   }
 
   // Проверка длины нового пароля
   if (newPassword.length < 6) {
-    return encodedRedirect("error", "/reset-password", "New password should be of 6 minimum characters");
+    return encodedRedirect("error", "/reset-password", "Новый пароль должен состоять минимум из 6 символов.");
   }
 
   // Верификация OTP (одноразового пароля) через Supabase
@@ -417,7 +240,7 @@ export const recoverPassAction = async (formData: FormData) => {
 
   // Проверка на успешную верификацию
   if (!session?.user?.email === email || !session?.user?.aud === "authenticated") {
-    return encodedRedirect("error", "/sign-in", "Could not verify OTP");
+    return encodedRedirect("error", "/sign-in", "Не удалось проверить одноразовый пароль.");
   }
   // if (session?.user?.email !== email || session?.user?.aud !== "authenticated") {
   //   return encodedRedirect("error", "/sign-in", "Could not verify OTP");

@@ -32,11 +32,12 @@ export default async function OwnersPage() {
 
     // Проверяем роль пользователя
     console.log("User role:", userData.role); // Логируем роль пользователя
-    if (userData.role !== "owner") {
-        console.log("Redirecting to protected due to insufficient role");
-        redirect("/protected"); // Можно перенаправить на другую страницу, если роль не "owner"
-        return; // Это нужно для того, чтобы TypeScript не выдавал ошибку
-    }
+    // if (userData.role !== "owner") {
+    //     console.log("Redirecting to protected due to insufficient role");
+    //     redirect("/clients"); // Можно перенаправить на другую страницу, если роль не "owner"
+    //     return; // Это нужно для того, чтобы TypeScript не выдавал ошибку
+    // }
+
 
     // Если всё в порядке, возвращаем компонент
     // console.log("Rendering OwnerPageContent");

@@ -12,17 +12,6 @@ interface OwnerPageContentProps {
     role: string | null;
 }
 
-// type Service = {
-//     name: string;
-//     description: string;
-//   };
-
-//   type WorkingHour = {
-//     day: string;
-//     from: string;
-//     to: string;
-//   };
-
 export default function OwnerPageContent({ user, role }: OwnerPageContentProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const router = useRouter();
@@ -53,11 +42,11 @@ export default function OwnerPageContent({ user, role }: OwnerPageContentProps) 
     }
 
     return (
-        <div className="flex flex-col md:flex-row h-screen w-full">
+        <div className="flex flex-row md:flex-row h-screen w-full">
             {/* Sidebar */}
-            <div className={cn("transition-all duration-300 shadow-md", isSidebarOpen ? "w-full md:w-48" : "w-16", "md:block hidden")}>
+            <div className={cn("transition-all duration-300 shadow-md", isSidebarOpen ? "w-48 md:w-48" : "w-16", "sm:block hidden")}>
                 {/* Sidebar header */}
-                <div className={cn(isSidebarOpen ? "flex justify-between items-center" : "flex justify-center")}>
+                <div className={cn(isSidebarOpen ? "flex gap-10 justify-start items-center" : "flex justify-center")}>
                     <h1 className={cn(isSidebarOpen ? "block" : "hidden", "text-lg font-bold")}>BookSphera</h1>
                     <Button variant="ghost" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                         {isSidebarOpen ? <X /> : <Menu />}
@@ -98,6 +87,7 @@ export default function OwnerPageContent({ user, role }: OwnerPageContentProps) 
                     </ul>
                 </nav>
             </div>
+            dfgdfgdf
             {/* Bottom mobile menu */}
             <div className="fixed bottom-0 w-full sm:hidden border-t-2">
                 <TooltipProvider>

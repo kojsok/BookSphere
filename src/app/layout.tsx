@@ -9,8 +9,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "BookSphera запишь в один клик",
-  description: "BookSphera запишь в один клик на любую услугу, Бронируй легко с BookSphera – одно касание, и готово!",
+  title: "BookSphera запишись в один клик",
+  description: "BookSphera запишись в один клик на любую услугу, Бронируй легко с BookSphera – одно касание, и готово!",
 };
 
 export default function RootLayout({children,}: {children: React.ReactNode;}) {
@@ -23,10 +23,10 @@ export default function RootLayout({children,}: {children: React.ReactNode;}) {
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen flex flex-col items-center">
+          <main className="h-screen w-screen flex flex-col items-center">
             <div className="flex-1 w-full flex flex-col gap-1 items-center">
               <Navbar />
-              <div className="flex w-full flex-col gap-5 p-5 items-center">
+              <div className="flex w-full h-screen flex-col gap-5 items-center">
                 {children}
               </div>
 

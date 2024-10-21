@@ -30,7 +30,7 @@ export default function Login({ searchParams }: { searchParams: Message }) {
         {/* Отображаем сообщения об ошибках */}
         <FormMessage  message={searchParams} />
 
-        <p className="text-xs text-gray-500 flex justify-center mt-4">
+        <p className="text-xs text-gray-500 flex justify-center">
           <Link
             className="text-blue-600 font-medium underline ml-1"
             href="/recover-password"

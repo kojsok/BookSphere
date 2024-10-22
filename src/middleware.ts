@@ -27,7 +27,7 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
 
   // Если пользователя нет, перенаправляем на страницу входа при попытке доступа к /admin
-  if (!session.ok && !user && urlPath.startsWith('/admin')) {
+  if (!session.ok && !user && urlPath.startsWith('/owners')) {
     const loginUrl = new URL('/sign-in', request.url);
     return NextResponse.redirect(loginUrl);
   }

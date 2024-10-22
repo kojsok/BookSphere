@@ -87,7 +87,7 @@ export default function OwnerPageContent({ user, role }: OwnerPageContentProps) 
                     </ul>
                 </nav>
             </div>
-            dfgdfgdf
+            Проверка и работа тут будут компоненты
             {/* Bottom mobile menu */}
             <div className="fixed bottom-0 w-full sm:hidden border-t-2">
                 <TooltipProvider>

@@ -5,6 +5,9 @@ import { Building, Clock, Info, Mail, Phone, User } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+// import Icon from '../../assets/qr-code.svg';
+import MyIcon from '../../assets/qr-code.svg';
+import Image from 'next/image'
 
 interface Owner {
     id: number;
@@ -69,7 +72,7 @@ export default function OwnersPage() {
     //     try {
     //         const result = await addServicesAction(formData);
     //         setMessage(result.error ?? result.success ?? "");
-    
+
     //         if (!result.error) {
     //             // Перезагружаем данные после успешного добавления
     //             const updatedData = await getServicesAction();
@@ -81,37 +84,51 @@ export default function OwnersPage() {
     // };
 
     return (
-        <div className="p-6 w-full max-w-full justify-center">
+        <div className="flex flex-col p-6 w-full max-w-full justify-center items-center">
             <h2 className="text-2xl font-bold mb-4 text-center">Карточка владельца</h2>
             {ownerData.map((owner: Owner) => (
-                <div key={owner.id} className="border border-gray-300 rounded-lg p-4 mb-6 shadow-sm">
-                    <div className="flex items-center mb-2">
-                        <Building className="w-5 h-5 text-blue-500 mr-2" />
-                        <h3 className="text-xl font-semibold">{owner.business_name}</h3>
-                    </div>
-                    <div className="flex items-center mb-2">
-                        <User className="w-5 h-5 text-gray-500 mr-2" />
-                        <p className="text-gray-700">Владелец: {owner.name}</p>
-                    </div>
-                    <div className="flex items-center mb-2">
-                        <Mail className="w-5 h-5 text-gray-500 mr-2" />
-                        <p className="text-gray-700">Email: {owner.email}</p>
-                    </div>
-                    <div className="flex items-center mb-2">
-                        <Phone className="w-5 h-5 text-green-500 mr-2" />
-                        <p className="text-gray-700">Телефон: {owner.phone_number}</p>
-                    </div>
-                    <div className="flex items-center mb-2">
-                        <Info className="w-5 h-5 text-yellow-500 mr-2" />
-                        <p className="text-gray-700">Описание: {owner.description}</p>
-                    </div>
-                    <div className="flex items-center mb-2">
-                        <Clock className="w-5 h-5 text-purple-500 mr-2" />
-                        <p className="text-gray-700">Рабочие часы: {owner.working_hours}</p>
-                    </div>
-                    <div className="flex items-center mb-2">
-                        <Building className="w-5 h-5 text-pink-500 mr-2" />
-                        <p className="text-gray-700">Услуги: {owner.services}</p>
+                <div key={owner.id} className="border w-full md:w-1/2 border-gray-300 rounded-lg p-4 mb-6 shadow-sm">
+                    <div className="flex flex-col md:flex-row gap-8">
+                        <div className="w-full md:w-1/3 flex justify-center md:justify-start">
+                            <Image
+                                priority
+                                src={MyIcon}
+                                width={150}  // Уменьшено изображение для мобильных устройств
+                                height={150}
+                                alt="QR code"
+                                className="w-full max-w-xs object-cover" // Изображение будет занимать 100% ширины на мобильных устройствах
+                            />
+                        </div>
+                        <div className="w-full md:w-2/3">
+                            <div className="flex items-center mb-2">
+                                <Building className="w-5 h-5 text-blue-500 mr-2" />
+                                <h3 className="text-xl font-semibold break-words">{owner.business_name}</h3>
+                            </div>
+                            <div className="flex items-center mb-2">
+                                <User className="w-5 h-5 text-gray-500 mr-2" />
+                                <p className="break-words text-sm md:text-base">Владелец: {owner.name}</p>
+                            </div>
+                            <div className="flex items-center mb-2">
+                                <Mail className="w-5 h-5 text-gray-500 mr-2" />
+                                <p className="break-words text-sm md:text-base">Email: {owner.email}</p>
+                            </div>
+                            <div className="flex items-center mb-2">
+                                <Phone className="w-5 h-5 text-green-500 mr-2" />
+                                <p className="break-words text-sm md:text-base">Телефон: {owner.phone_number}</p>
+                            </div>
+                            <div className="flex items-center mb-2">
+                                <Info className="w-5 h-5 text-yellow-500 mr-2" />
+                                <p className="break-words text-sm md:text-base">Описание: {owner.description}</p>
+                            </div>
+                            <div className="flex items-center mb-2">
+                                <Clock className="w-5 h-5 text-purple-500 mr-2" />
+                                <p className="break-words text-sm md:text-base">Рабочие часы: {owner.working_hours}</p>
+                            </div>
+                            <div className="flex items-center mb-2">
+                                <Building className="w-5 h-5 text-pink-500 mr-2" />
+                                <p className="break-words text-sm md:text-base">Услуги: {owner.services}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             ))}
@@ -149,7 +166,6 @@ export default function OwnersPage() {
                         <Input type="text" id="phone_number" name="phone_number" required />
                     </div>
 
-                    {/* Вывод сообщения об успехе или ошибке */}
                     {message && (
                         <p className={`text-sm ${message.includes("ошибка") ? "text-red-600" : "text-green-600"}`}>
                             {message}
@@ -162,6 +178,7 @@ export default function OwnersPage() {
                 </form>
             </div>
         </div>
+
     );
 }
 

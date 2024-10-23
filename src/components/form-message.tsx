@@ -14,7 +14,7 @@ export type Message = {
           </div>
         )}
         {"error" in message && (
-          <div className="text-destructive-foreground border-l-2 border-destructive-foreground px-4">
+          <div className="text-foreground text-red-600 border-l-2 border-foreground px-4">
             {message.error}
           </div>
         )}

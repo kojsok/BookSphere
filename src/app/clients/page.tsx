@@ -1,6 +1,5 @@
 
 import { createClient } from "@/utils/supabase/server";
-import { User } from "lucide-react";
 import { redirect } from "next/navigation";
 
 export default async function ClientsPage() {
@@ -48,37 +47,3 @@ export default async function ClientsPage() {
     </div>
   );
 }
-
-
-
-
-// export default async function ClientsPage() {
-//   return (
-//         <div>
-//           <h1>Страница для владельцев</h1>
-//           <p>Добро пожаловать, Клиент!</p>
-//         </div>
-//       );
-//     }
-
-
-// import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs';
-// import { headers } from 'next/headers';
-
-// export default async function ClientsPage() {
-//   const supabase = createServerSupabaseClient({ headers });
-//   const {
-//     data: { session },
-//   } = await supabase.auth.getSession();
-
-//   if (!session) {
-//     return <div>Пожалуйста, войдите в систему</div>;
-//   }
-
-//   return (
-//     <div>
-//       <h1>Страница для клиентов</h1>
-//       <p>Добро пожаловать, клиент!</p>
-//     </div>
-//   );
-// }

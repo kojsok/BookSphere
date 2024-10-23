@@ -15,9 +15,8 @@ export default function OwnersLayout({ children }: { children: ReactNode }) {
       <div className="flex flex-row md:flex-row">
             {/* Sidebar */}
             
-            <div className={cn("p-4 transition-all duration-300 shadow-md", isSidebarOpen ? "w-48 md:w-48" : "w-16", "sm:block hidden")}>
+            <div className={cn("h-screen p-4 transition-all duration-300 shadow-md", isSidebarOpen ? "w-48 md:w-48" : "w-16", "sm:block hidden")}>
                 {/* Sidebar header */}
-                <p>ЭТО ТЕСТ</p>
                 <div className={cn(isSidebarOpen ? "flex gap-4 justify-start items-center" : "flex justify-center")}>
                     <h1 className={cn(isSidebarOpen ? "block" : "hidden", "text-lg font-bold")}>BookSphera</h1>
                     <Button variant="ghost" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>

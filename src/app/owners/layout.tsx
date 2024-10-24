@@ -1,50 +1,21 @@
-'use client';
-import { useEffect, useState } from "react";
-import { User as SupabaseUser } from '@supabase/auth-js';
-import { useRouter } from "next/navigation";
+'use client'
+import { ReactNode, useState } from 'react';
 import { cn } from "@/utils/cn";
 import { Button } from "@/components/ui/button";
 import { Briefcase, Calendar1, Clock, House, Menu, QrCode, X } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import Link from 'next/link';
 
-interface OwnerPageContentProps {
-    user: SupabaseUser | null;
-    role: string | null;
-}
+export default function OwnersLayout({ children }: { children: ReactNode }) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-export default function OwnerPageContent({ user, role }: OwnerPageContentProps) {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const router = useRouter();
-    const [loading, setLoading] = useState(true); // Состояние для загрузки
 
-    useEffect(() => {
-        if (!user) {
-            router.push("/sign-in");
-            return;
-        }
-
-        if (!role) {
-            router.push("/sign-in");
-            return;
-        }
-
-        if (role === "client") {
-            router.push("/clients");
-            return;
-        }
-
-        // Если всё в порядке, убираем состояние загрузки
-        setLoading(false);
-    }, [user, role, router]);
-
-    if (loading) {
-        return <div>Загрузка...</div>; // Заглушка, пока идет проверка
-    }
-
-    return (
-        <div className="flex flex-row md:flex-row h-screen w-full">
+  return (
+    <div className='flex flex-row items-start'>
+      <div className="flex flex-row md:flex-row">
             {/* Sidebar */}
-            <div className={cn("p-4 transition-all duration-300 shadow-md", isSidebarOpen ? "w-48 md:w-48" : "w-16", "sm:block hidden")}>
+            
+            <div className={cn("h-screen p-4 transition-all duration-300 shadow-md", isSidebarOpen ? "w-48 md:w-48" : "w-16", "sm:block hidden")}>
                 {/* Sidebar header */}
                 <div className={cn(isSidebarOpen ? "flex gap-4 justify-start items-center" : "flex justify-center")}>
                     <h1 className={cn(isSidebarOpen ? "block" : "hidden", "text-lg font-bold")}>BookSphera</h1>
@@ -55,16 +26,20 @@ export default function OwnerPageContent({ user, role }: OwnerPageContentProps) 
                 <nav className={cn(!isSidebarOpen ? "flex justify-center mt-6" : "mt-6")}>
                     <ul className="space-y-4">
                         <li>
+                        <Link href="/owners/">
                             <Button variant="ghost" className="flex items-center space-x-2">
                                 <House />
                                 {isSidebarOpen && <span>О компании</span>}
                             </Button>
+                            </Link>
                         </li>
                         <li>
+                        <Link href="/owners/services">
                             <Button variant="ghost" className="flex items-center space-x-2">
                                 <Briefcase />
                                 {isSidebarOpen && <span>Услуги</span>}
                             </Button>
+                            </Link>
                         </li>
                         <li>
                             <Button variant="ghost" className="flex items-center space-x-2">
@@ -87,7 +62,8 @@ export default function OwnerPageContent({ user, role }: OwnerPageContentProps) 
                     </ul>
                 </nav>
             </div>
-            dfgdfgdf
+            {/* Проверка и работа тут будут компоненты */}
+            {/* <AddService /> */}
             {/* Bottom mobile menu */}
             <div className="fixed bottom-0 w-full sm:hidden border-t-2">
                 <TooltipProvider>
@@ -139,5 +115,8 @@ export default function OwnerPageContent({ user, role }: OwnerPageContentProps) 
             </div>
 
         </div>
-    );
+      
+      {children}
+    </div>
+  );
 }

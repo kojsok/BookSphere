@@ -18,8 +18,10 @@ export async function middleware(request: NextRequest) {
 
   // Обновляем сессию пользователя
   const session = await updateSession(request);
-  console.log('Middleware is working:', request.url);
-  console.log('Session:', session);
+  console.log('Middleware is working==========:', request.url);
+  //!для отладки сессии 
+  // console.log('Session:', session);
+  console.log("Session=======:", session.ok, session.status, session.statusText);
 
   const supabase = createClient();
 
@@ -27,7 +29,7 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
 
   // Если пользователя нет, перенаправляем на страницу входа при попытке доступа к /admin
-  if (!session.ok && !user && urlPath.startsWith('/admin')) {
+  if (!session.ok && !user && urlPath.startsWith('/owners')) {
     const loginUrl = new URL('/sign-in', request.url);
     return NextResponse.redirect(loginUrl);
   }
@@ -41,7 +43,7 @@ export async function middleware(request: NextRequest) {
       .single();
 
     if (userError || !userData) {
-      console.log('Error fetching user role:', userError);
+      // console.log('Error fetching user role:', userError);
       const forbiddenUrl = new URL('/sign-in', request.url);
       return NextResponse.redirect(forbiddenUrl); // Если ошибка при получении данных, перенаправляем
     }

@@ -87,16 +87,17 @@ export default function OwnersPage() {
         <div className="flex flex-col p-6 w-full max-w-full justify-center items-center">
             <h2 className="text-2xl font-bold mb-4 text-center">Карточка владельца</h2>
             {ownerData.map((owner: Owner) => (
-                <div key={owner.id} className="border w-full md:w-1/2 border-gray-300 rounded-lg p-4 mb-6 shadow-sm">
+                <div key={owner.id} className="border w-full md:w-9/12 border-gray-300 rounded-lg p-4 mb-6 shadow-sm">
                     <div className="flex flex-col md:flex-row gap-8">
-                        <div className="w-full md:w-1/3 flex justify-center md:justify-start">
+                        <div className="flex justify-center items-center md:justify-start">
                             <Image
                                 priority
                                 src={MyIcon}
-                                width={150}  // Уменьшено изображение для мобильных устройств
-                                height={150}
+                                width={100}  // Уменьшено изображение для мобильных устройств
+                                height={100}
                                 alt="QR code"
-                                className="w-full max-w-xs object-cover" // Изображение будет занимать 100% ширины на мобильных устройствах
+                                style={{objectFit: "cover"}}
+                                className="w-[150px] h-[150px] max-w-xs object-cover" // Изображение будет занимать 100% ширины на мобильных устройствах
                             />
                         </div>
                         <div className="w-full md:w-2/3">

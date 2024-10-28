@@ -27,13 +27,13 @@ export async function fetchAllFromTableDB<T>(tableName: string, field?: string, 
     const { data, error } = await query;
     // if (error) throw error;
     if (error) {
-      console.error('Ошибка запроса данных либо данные отсутствуют в таблице базы данных:', error);
+      console.error(`Ошибка запроса данных либо данные отсутствуют в таблице ${tableName} базы данных:`, error);
       return null;
     }
 
     return data as T[];
   } catch (error) {
-    console.error('Ошибка запроса данных либо данные отсутствуют::', error);
+    console.error(`Ошибка запроса данных либо данные отсутствуют в таблице ${tableName}:`, error);
     return null;
   }
 }

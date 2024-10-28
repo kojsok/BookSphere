@@ -8,7 +8,7 @@ export default async function Services() {
   // getAllOwnersWithEmail();
   // getOwnerByPhone("123 912");
   // getAllOwnersWithBusinessName();
-  addNewOwner({id: "2717f5d7-82f5-47f3-b14f-6d4448e00ad5", business_name: "примерчик", description: "мой примерчик", phone_number: "123456789", email: "123@123.ru"});
+  addNewOwner({ business_name: "примерчик", description: "мой примерчик", phone_number: "123456789", email: "123@123.ru"});
 
  
 

@@ -59,6 +59,13 @@ export async function getOwnerByPhone(phone_number: string) {
   return owners;
 }
 
+// Пример использования функции с указанием поля и значения
+export async function getOwnerByBusinessName(business_name: string) {
+  const owners = await fetchAllFromTableDB<IOwner>('owners', 'business_name', business_name);
+  console.log('Owner by business_name:', owners);
+  return owners;
+}
+
 
 // Пример использования функции с указанием поля без значения например все компании где есть поле bussiness_name
 export async function getAllOwnersWithBusinessName() {

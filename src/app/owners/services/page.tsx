@@ -1,15 +1,17 @@
-import { addNewOwner } from "@/utils/actions/addDataToTableDB";
-import { getAllOwnersWithBusinessName, getAllOwnersWithEmail, getOwnerByPhone, getOwners } from "@/utils/actions/fetchAllFromTableDB";
-import { v4 as uuidv4 } from 'uuid';
+// import {addOrUpdateOwner } from "@/utils/actions/addDataToTableDB";
+// import { getAllOwnersWithBusinessName, getAllOwnersWithEmail, getOwnerByBusinessName, getOwnerByPhone, getOwners } from "@/utils/actions/fetchAllFromTableDB";
+
+import { getOwners } from "@/utils/actions/fetchAllFromTableDB";
+
 
 export default async function Services() {
 
-  // getOwners();
+ const owners = await getOwners();
   // getAllOwnersWithEmail();
   // getOwnerByPhone("123 912");
   // getAllOwnersWithBusinessName();
-  addNewOwner({ business_name: "примерчик", description: "мой примерчик", phone_number: "123456789", email: "123@123.ru"});
-
+  // getOwnerByBusinessName("примерчик");
+  // addOrUpdateOwner({id: "d768e530-d8ed-41dc-9c66-83fe9020dd3e", business_name: "примерчик", description: "мой примерчик", phone_number: "123456789"});
  
 
  
@@ -17,6 +19,7 @@ export default async function Services() {
     return (
       <div className="w-full max-w-full flex flex-col justify-center items-center">
         <p className="text-2xl">This is an Services page</p>
+        { owners?.map((owner) => <p key={owner.id}>{ owner.business_name }</p>) }
       </div>
     );
   }

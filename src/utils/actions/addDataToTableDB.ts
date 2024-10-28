@@ -3,53 +3,66 @@ import { IOwner } from "../types/iowners";
 
 const supabase = createClient();
 
+// Новый интерфейс, исключающий поле `email`
+//export type IPartialOwner = Partial<IOwner>;  // делает все поля необязательными
+// Новый интерфейс, где `email` - необязательное поле
+export interface IPartialOwner extends Omit<IOwner, 'email'> {
+  email?: string;
+}
 
-// Универсальная функция для добавления данных в таблицу Supabase
-// Перегрузки позволяют использовать разные варианты вызова функции:
-// - только tableName и data для добавления данных,
-// - tableName, data и callback для выполнения дополнительного действия после добавления.
-export async function addDataToTableDB<T>(tableName: string, data: T): Promise<T | null>;
-export async function addDataToTableDB<T>(tableName: string, data: T, callback: (result: T | null) => void): Promise<T | null>;
-export async function addDataToTableDB<T>(tableName: string, data: T, callback?: (result: T | null) => void): Promise<T | null> {
+// Универсальная функция для добавления или обновления данных в таблице owners
+export async function addOrUpdateOwner(data: IPartialOwner) {
   try {
-    const { data: result, error } = await supabase.from(tableName).insert(data).single();
+    // Проверяем, существует ли пользователь с таким `id` в таблице `users`
+    const { error: userError } = await supabase
+      .from('users')
+      .select('id')
+      .eq('id', data.id)
+      .single();
 
-    if (error) {
-      console.error("Ошибка добавления данных в таблицу базы данных:", error);
-      return null;
+    if (userError) {
+      // throw new Error(`Пользователь с id ${data.id} не найден: ${userError.message}`);
+      console.log(`Пользователь с id ${data.id} не найден: ${userError.message}`, userError.message);
     }
 
-    // Вызов callback, если он указан
-    if (callback) {
-      callback(result as T);
+    // Проверяем, существует ли владелец бизнеса с таким `id` в таблице `owners`
+    const { data: existingOwner, error: ownerError } = await supabase
+      .from('owners')
+      .select('*')
+      .eq('id', data.id)
+      .single();
+    
+    if (ownerError) {
+      // throw new Error(`Пользователь с id ${data.id} не найден: ${ownerError.message}`);
+      console.log(`Пользователь с id ${data.id} не найден: ${ownerError.message}`, ownerError.message);
     }
 
-    return result as T;
+    if (existingOwner) {
+      // Если владелец уже существует, обновляем только указанные поля
+      console.log('Владелец существует и будет обновлен:', existingOwner);
+      const { data: updatedOwner, error: updateError } = await supabase
+        .from('owners')
+        .update({
+          business_name: data.business_name,
+          description: data.description,
+          phone_number: data.phone_number,
+        })
+        .eq('id', data.id);
+
+      if (updateError) {
+        // throw new Error(`Ошибка обновления владельца бизнеса: ${updateError.message}`);
+        console.log(`Ошибка обновления владельца бизнеса: ${updateError.message}`, updateError.details);
+      }
+
+      return updatedOwner;
+    } 
   } catch (error) {
-    console.error("Ошибка добавления данных в базу данных:", error);
-    return null;
+    if (error instanceof Error) {
+      console.error(error);
+      throw new Error(`Не удалось добавить или обновить владельца бизнеса: ${error.message}`);
+    } else {
+      console.error(error);
+      throw new Error(`Не удалось добавить или обновить владельца бизнеса: неизвестная ошибка`);
+    }
   }
 }
-
-// Примеры использования функции для добавления данных в таблицу
-
-// Добавление нового владельца бизнеса
-export async function addNewOwner(owner: IOwner) {
-  const result = await addDataToTableDB<IOwner>('owners', owner);
-  console.log('Новый владелец добавлен:', result);
-  return result;
-}
-
-// Добавление нового владельца бизнеса с callback
-export async function addNewOwnerWithCallback(owner: IOwner) {
-  await addDataToTableDB<IOwner>('owners', owner, (result) => {
-    if (result) {
-      console.log('Владелец успешно добавлен с callback:', result);
-    } else {
-      console.log('Ошибка при добавлении владельца.');
-    }
-  });
-}
-
-
-//export const tramparm = addDataToTableDB<IOwner>('owners', {id: 1, business_name: 'примерчик', description: 'мой примерчик', phone_number: '123456789', email: '123@123.ru'});

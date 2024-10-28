@@ -13,12 +13,13 @@ export const getServicesAction = async () => {
     // Запрос данных из таблицы "owners"
     const { data: ownersData, error: ownersError } = await supabase
         .from('owners')
-        .select('id, business_name, description, phone_number, name, email, services, working_hours')
+        .select('id, business_name, description, phone_number, email')
         .eq('email', userEmail); // Предполагается, что email используется для связи владельца
 
     if (ownersError) {
         return { error: "Ошибка при получении данных о владельце." };
     }
+    //обновляем кэш
     revalidatePath('/owners');
     // Возвращаем данные
     return ownersData;

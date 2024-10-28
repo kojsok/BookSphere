@@ -1,28 +1,20 @@
 'use client';
 import { useEffect, useState } from "react";
-import { addServicesAction, getServicesAction } from "./actionsOwners";
-import { Building, Clock, Info, Mail, Phone, User } from "lucide-react";
+import { addServicesAction, getServicesAction } from "@/utils/actions/actionsOwners";
+import { Building, Info, Mail, Phone} from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 // import Icon from '../../assets/qr-code.svg';
 import MyIcon from '../../assets/qr-code.svg';
 import Image from 'next/image'
+import { IOwner } from "@/utils/types/iowners";
 
-interface Owner {
-    id: number;
-    business_name: string;
-    description: string;
-    phone_number: string;
-    name: string;
-    email: string;
-    services: string;
-    working_hours: string;
-}
+
 
 export default function OwnersPage() {
     // const [ownerData, setOwnerData] = useState(null);
-    const [ownerData, setOwnerData] = useState<Owner[]>([]);
+    const [ownerData, setOwnerData] = useState<IOwner[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string>("");
 
@@ -86,7 +78,7 @@ export default function OwnersPage() {
     return (
         <div className="flex flex-col p-6 w-full max-w-full justify-center items-center">
             <h2 className="text-2xl font-bold mb-4 text-center">Карточка владельца</h2>
-            {ownerData.map((owner: Owner) => (
+            {ownerData.map((owner: IOwner) => (
                 <div key={owner.id} className="border w-full md:w-9/12 border-gray-300 rounded-lg p-4 mb-6 shadow-sm">
                     <div className="flex flex-col md:flex-row gap-8">
                         <div className="flex justify-center items-center md:justify-start">
@@ -105,10 +97,10 @@ export default function OwnersPage() {
                                 <Building className="w-5 h-5 text-blue-500 mr-2" />
                                 <h3 className="text-xl font-semibold break-words">{owner.business_name}</h3>
                             </div>
-                            <div className="flex items-center mb-2">
+                            {/* <div className="flex items-center mb-2">
                                 <User className="w-5 h-5 text-gray-500 mr-2" />
                                 <p className="break-words text-sm md:text-base">Владелец: {owner.name}</p>
-                            </div>
+                            </div> */}
                             <div className="flex items-center mb-2">
                                 <Mail className="w-5 h-5 text-gray-500 mr-2" />
                                 <p className="break-words text-sm md:text-base">Email: {owner.email}</p>
@@ -121,14 +113,14 @@ export default function OwnersPage() {
                                 <Info className="w-5 h-5 text-yellow-500 mr-2" />
                                 <p className="break-words text-sm md:text-base">Описание: {owner.description}</p>
                             </div>
-                            <div className="flex items-center mb-2">
+                            {/* <div className="flex items-center mb-2">
                                 <Clock className="w-5 h-5 text-purple-500 mr-2" />
                                 <p className="break-words text-sm md:text-base">Рабочие часы: {owner.working_hours}</p>
-                            </div>
-                            <div className="flex items-center mb-2">
+                            </div> */}
+                            {/* <div className="flex items-center mb-2">
                                 <Building className="w-5 h-5 text-pink-500 mr-2" />
                                 <p className="break-words text-sm md:text-base">Услуги: {owner.services}</p>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

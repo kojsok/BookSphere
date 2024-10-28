@@ -31,7 +31,8 @@ export const signUpAction = async (formData: FormData) => {
   }
 
   // Проверка существующего пользователя в базе данных
-  const { data: existingUser, error: fetchError } = await supabase
+  //const { data: existingUser, error: fetchError } = await supabase
+  const { error: fetchError } = await supabase
     .from('users')
     .select('id')
     .eq('email', email)
@@ -90,8 +91,8 @@ export const signUpAction = async (formData: FormData) => {
       .insert({
         id: authData.user?.id, // UUID пользователя из Supabase Auth
         email,
-        name,
-        created_at: new Date().toISOString(),
+        // name,
+        // created_at: new Date().toISOString(),
       });
 
     // Обработка ошибок при добавлении в таблицу `owners`
@@ -239,12 +240,13 @@ export const recoverPassAction = async (formData: FormData) => {
   });
 
   // Проверка на успешную верификацию
-  if (!session?.user?.email === email || !session?.user?.aud === "authenticated") {
+  //!TODO проверить
+  // if (!session?.user?.email === email || !session?.user?.aud === "authenticated") {
+  //   return encodedRedirect("error", "/sign-in", "Не удалось проверить одноразовый пароль.");
+  // }
+  if (session?.user?.email !== email || session?.user?.aud !== "authenticated") {
     return encodedRedirect("error", "/sign-in", "Не удалось проверить одноразовый пароль.");
   }
-  // if (session?.user?.email !== email || session?.user?.aud !== "authenticated") {
-  //   return encodedRedirect("error", "/sign-in", "Could not verify OTP");
-  // }
 
   // Обработка ошибок при верификации OTP
   if (error) {

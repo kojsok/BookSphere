@@ -80,7 +80,7 @@ const QRCodeGenerator = () => {
                     onClick={handleCopy}
                     variant="ghost"
                     size="icon"
-                    className="absolute right-2 top-1/2 transform -translate-y-1/2"
+                    className="absolute right-0 top-1/2 transform -translate-y-1/2"
                 >
                     <Copy className="w-5 h-5" />
                 </Button>

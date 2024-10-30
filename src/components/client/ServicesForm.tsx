@@ -1,7 +1,7 @@
 'use client'
 import { FC } from "react";
 import InputField, { InputSample } from "../shared/InputField";
-import { SubmitButton } from "./submit-button";
+import { SubmitButton } from "../submit-button";
 // import { ServicesDefault } from "@/utils/types/services";
 import { addService } from "@/utils/actions/servicesActions";
 import { ServicesDefault } from "@/utils/types/services";

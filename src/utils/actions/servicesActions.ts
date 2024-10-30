@@ -1,5 +1,4 @@
 "use server";
-
 import { revalidatePath } from "next/cache";
 import { createClient } from "../supabase/server";
 import { IService, servicesFormSchema } from "../types/services";
@@ -34,10 +33,12 @@ export const addService = async (formData: FormData) => {
     ...rest,
   };
   console.log(service);
-  const { error } = await supabase.from("services").insert(service);
-  if (error) {
-    console.log(error);
-  } else {
-    revalidatePath("/owners/services");
-  }
+  // const { error } = await supabase.from("services").insert(service);
+  // if (error) {
+  //   console.log(error);
+  // } else {
+  //   revalidatePath("/owners/services");
+  // }
 };
+
+export const readAllUserServices = () => {};

@@ -88,7 +88,8 @@ const QRCodeGenerator = () => {
                     </a>
                 </div>
             )}
-            <Button onClick={generateQRCode} variant="default" className="w-full  max-w-xs">
+            {/* Анимация добавлена для наглядности */}
+            <Button onClick={generateQRCode} variant="default" className="w-full  max-w-xs animate-bounce duration-800 hover:animate-pulse">
                 Сгенерировать QR-код
             </Button>
 

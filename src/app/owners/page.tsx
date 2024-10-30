@@ -165,7 +165,7 @@ export default function OwnersPage() {
                         </p>
                     )}
 
-                    <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    <Button type="submit" className="w-full ">
                         Добавить информацию о компании
                     </Button>
                 </form>

@@ -1,6 +1,6 @@
 import { signInAction } from "@/app/actions";
 import { FormMessage, Message } from "@/components/form-message";
-import { SubmitButton } from "@/components/submit-button";
+import { SubmitButton } from "@/components/client/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
@@ -28,7 +28,7 @@ export default function Login({ searchParams }: { searchParams: Message }) {
         </SubmitButton>
 
         {/* Отображаем сообщения об ошибках */}
-        <FormMessage  message={searchParams} />
+        <FormMessage message={searchParams} />
 
         <p className="text-xs text-gray-500 flex justify-center">
           <Link

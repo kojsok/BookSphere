@@ -17,9 +17,9 @@ const ServicesDialog = ({ mode = 'new' }: ServicesDialogProps) => {
   const title = isEdit ? 'Редактировать услугу' : 'Новая услуга';
   const descr = isEdit ? 'редактировать' : 'добавить новую'
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
-        <Button>{buttonInner}</Button>
+        <Button variant={isEdit ? 'outline' : 'default'}>{buttonInner}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

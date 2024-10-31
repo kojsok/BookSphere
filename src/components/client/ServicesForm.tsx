@@ -6,7 +6,7 @@ import { addOrUpdateService } from "@/utils/actions/servicesActions";
 import { ServicesDefault } from "@/utils/types/services";
 import { Label } from "@radix-ui/react-label";
 import { Textarea } from "../ui/textarea";
-import { ServiceContext } from "./ServicesList";
+import { ServiceContext } from "./ServicesCard";
 
 const initialValues: ServicesDefault = {
   name: '',
@@ -23,15 +23,14 @@ interface ServicesFormProps {
 const ServicesForm = ({ onSuccess }: ServicesFormProps) => {
   const value = useContext(ServiceContext)
   const { name, price, hours, minutes, description } = value?.defaultValues || initialValues;
-
   return (
     <form
       className="flex flex-col gap-6"
       autoComplete="off"
       action={
         async (formData: FormData) => {
-          const result = await addOrUpdateService(formData)
-          if (!result?.error) onSuccess()
+          await addOrUpdateService(formData)
+          onSuccess()
         }}
     >
       {/* скрытое поле для передачи service_id на экшн */}
@@ -53,7 +52,7 @@ const ServicesForm = ({ onSuccess }: ServicesFormProps) => {
           </InputField>
         </div>
       </div>
-      <SubmitButton pendingText="Отправка..." onClick={close}>Отправить</SubmitButton>
+      <SubmitButton pendingText="Отправка...">Отправить</SubmitButton>
     </form>
   );
 }

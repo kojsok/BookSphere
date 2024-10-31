@@ -1,5 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
+// import { revalidatePath } from "next/cache";
 import { createClient } from "../supabase/server";
 import {
   MutationService,
@@ -16,8 +17,6 @@ const getUser = async (): Promise<ExtendedUser> => {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    console.log("Пользователь не авторизован");
-    // return { error: "Пользователь не авторизован" };
     throw new Error("Пользователь не авторизован");
   }
   const { data: userRole } = await supabase
@@ -32,6 +31,7 @@ export const addOrUpdateService = async (formData: FormData) => {
   const supabase = createClient();
   try {
     const user: ExtendedUser = await getUser();
+
     //преобразуем форм дату в нужны объект и проверяем по схеме
     const service_id = formData.get("service_id");
 
@@ -42,6 +42,7 @@ export const addOrUpdateService = async (formData: FormData) => {
       hours: Number(formData.get("hours")),
       minutes: Number(formData.get("minutes")),
     };
+    //валидация данных с помощью зод
     const validateServicesData = servicesFormSchema.safeParse(objFromFormData);
     if (!validateServicesData.success) {
       console.log(validateServicesData.error.flatten().fieldErrors);
@@ -64,16 +65,11 @@ export const addOrUpdateService = async (formData: FormData) => {
       ({ error } = await supabase.from("services").insert(service));
     }
     if (error)
-      throw new Error(
-        "Ошибка при добавлении/обновлении услуги: " + error.message
-      );
-    revalidatePath("/owners/services");
+      throw new Error(`Не удалось добавить/обновить услугу: ${error.message}`);
   } catch (error) {
-    console.error(error);
-    return {
-      error: error instanceof Error ? error.message : "Неизвестная ошибка",
-    };
+    return { error };
   }
+  revalidatePath("/owners/services");
 };
 
 export const readAllUserServices = async (): Promise<{
@@ -108,4 +104,9 @@ export const getServiceById = async (id: string) => {
     console.error("Ошибка при получении услуги по ID:", error);
     return { error: "Не удалось получить услугу. Попробуйте позже." };
   }
+};
+
+export const deleteService = async (id: string) => {
+  const supabase = createClient();
+  const response = await supabase.from("services").delete().eq("id", id);
 };

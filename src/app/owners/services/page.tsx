@@ -1,5 +1,5 @@
 import ServicesDialog from "@/components/client/ServicesDialog";
-import ServicesList from "@/components/client/ServicesList";
+import ServicesList from "@/components/server/ServicesList";
 
 
 export default async function Services() {

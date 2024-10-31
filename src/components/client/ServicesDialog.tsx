@@ -11,13 +11,13 @@ interface ServicesDialogProps {
 }
 
 const ServicesDialog = ({ mode = 'new' }: ServicesDialogProps) => {
-  const [open, setOpen] = useState<null | boolean>(null)
+  const [open, setOpen] = useState<boolean>(false)
   const isEdit = mode === 'edit';
   const buttonInner = isEdit ? <Pencil /> : 'Добавить услугу';
   const title = isEdit ? 'Редактировать услугу' : 'Новая услуга';
   const descr = isEdit ? 'редактировать' : 'добавить новую'
   return (
-    <Dialog {...open !== null && { open: open }}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>{buttonInner}</Button>
       </DialogTrigger>

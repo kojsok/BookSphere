@@ -5,13 +5,20 @@ export const servicesFormSchema = z.object({
   price: z.number(),
   hours: z.number(),
   minutes: z.number(),
+  description: z.string(),
+  service_id: z.string().optional(),
 });
 
 export type ServicesDefault = z.infer<typeof servicesFormSchema>;
 
-export interface IService {
+export interface MutationService {
   owner_id: string;
   name: string;
   price: number;
   duration: number; //sec
+  description: string;
+}
+
+export interface QueryService extends MutationService {
+  id: string;
 }

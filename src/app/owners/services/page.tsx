@@ -7,7 +7,11 @@ export default async function Services() {
     <div className="container mx-auto px-6 py-10">
       <h1 className="title-h1 mb-8">Услуги</h1>
       <ServicesList className="mb-8" />
-      <ServicesDialog />
+      <ServicesDialog
+        styling={{
+          trigger: 'mx-auto block'
+        }}
+      />
 
     </div>
   );

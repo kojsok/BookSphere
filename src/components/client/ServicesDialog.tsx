@@ -59,7 +59,7 @@ interface ServicesDialogProps {
 const ServicesDialog = ({ mode = 'new', styling }: ServicesDialogProps): JSX.Element => {
   const [open, setOpen] = useState<boolean>(false)
   const isEdit = mode === 'edit';
-  const buttonInner = isEdit ? <Pencil /> : 'Добавить услугу';
+  const buttonInner = isEdit ? <Pencil className="group-hover:text-primary transition ease-in-out duration-150" /> : 'Добавить услугу';
   const title = isEdit ? 'Редактировать услугу' : 'Новая услуга';
   const descr = isEdit ? 'редактировать' : 'добавить новую'
   return (
@@ -68,7 +68,7 @@ const ServicesDialog = ({ mode = 'new', styling }: ServicesDialogProps): JSX.Ele
         asChild
         className={cn(styling?.trigger)}
       >
-        <Button variant={isEdit ? 'outline' : 'default'}>{buttonInner}</Button>
+        <Button className="group" variant={isEdit ? 'outline' : 'default'}>{buttonInner}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader
@@ -87,6 +87,7 @@ const ServicesDialog = ({ mode = 'new', styling }: ServicesDialogProps): JSX.Ele
         </DialogHeader>
         <ServicesForm onSuccess={() => setOpen(false)} />
       </DialogContent>
+
     </Dialog>
   );
 }

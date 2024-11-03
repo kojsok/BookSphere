@@ -25,6 +25,7 @@ const ServicesForm = ({ onSuccess }: ServicesFormProps) => {
   const { name, price, hours, minutes, description } = value?.defaultValues || initialValues;
   return (
     <form
+      autoCapitalize="sentence"
       className="flex flex-col gap-6"
       autoComplete="off"
       action={
@@ -37,7 +38,7 @@ const ServicesForm = ({ onSuccess }: ServicesFormProps) => {
       <input type="hidden" name="service_id" value={value?.service_id} />
 
       <InputField required={true} label="Название услуги" id="name" type='text' name="name" defaultValue={name} />
-      <Textarea placeholder="Описание услуги" name="description" defaultValue={description} />
+      <Textarea rows={8} placeholder="Описание услуги" name="description" defaultValue={description} />
       <InputField label="Цена" id="price" type="number" name="price" defaultValue={price} />
 
       <div>

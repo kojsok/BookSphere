@@ -1,18 +1,26 @@
 'use client';
+
 import { Button } from '@/components/ui/button';
-import QRCode from 'qrcode';
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { fetchSession } from '@/utils/actions/fetchSession';
 import { Input } from '@/components/ui/input';
 import { Copy, Share } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import QrCode from '@/components/qrcode';
 
 const QRCodeGenerator = () => {
-    const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
     const [userID, setUserID] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [inputValue, setInputValue] = useState('');
+    const [isQrCodeGenerated, setIsQrCodeGenerated] = useState(false); // новое состояние
+
+    const handleGenerateQRCode = () => {
+        setIsQrCodeGenerated(true); // обновляем состояние при нажатии кнопки
+        if (userID) {
+            const qrCodeText = `https://booksphera.ru/${userID}`;
+            setInputValue(qrCodeText);
+        }
+    };
 
     const handleCopy = async () => {
         if (inputValue) {
@@ -40,7 +48,7 @@ const QRCodeGenerator = () => {
                 }
             }
         } else {
-            alert('Web Share API не поддерживается вашим устройством.'); //можно убрать
+            alert('Web Share API не поддерживается вашим устройством.');
         }
     };
 
@@ -56,40 +64,16 @@ const QRCodeGenerator = () => {
         getSession();
     }, []);
 
-    const generateQRCode = async () => {
-        try {
-            const qrCodeText = `https://booksphera.ru/${userID}`;
-            const url = await QRCode.toDataURL(qrCodeText);
-            setQrCodeUrl(url);
-            setInputValue(qrCodeText);
-        } catch (error) {
-            console.error('Ошибка генерации QR-кода:', error);
-        }
-    };
-
     if (error) {
         return <p className="text-red-500">{error}</p>;
     }
 
     return (
         <div className="flex flex-col items-center p-4 space-y-4 w-full max-w-md mx-auto">
-            {qrCodeUrl && (
-                <div className="flex flex-col items-center space-y-2">
-                    <Image
-                        src={qrCodeUrl}
-                        width={200}
-                        height={200}
-                        alt="QR code"
-                        style={{ objectFit: 'cover' }}
-                        className="w-[300px] h-[300px] max-w-full object-fit rounded-lg"
-                    />
-                    <a href={qrCodeUrl} download="qrcode.png" className="text-blue-500 underline">
-                        Скачать QR-код
-                    </a>
-                </div>
-            )}
-            {/* Анимация добавлена для наглядности */}
-            <Button onClick={generateQRCode} variant="default" className="w-full  max-w-xs animate-bounce duration-800 hover:animate-pulse">
+            {/* Показываем QR код только если он был сгенерирован */}
+            {isQrCodeGenerated && userID && <QrCode ownerId={userID} />}
+
+            <Button onClick={handleGenerateQRCode} variant="default" className="w-full max-w-xs animate-bounce duration-800 hover:animate-pulse">
                 Сгенерировать QR-код
             </Button>
 
@@ -100,7 +84,7 @@ const QRCodeGenerator = () => {
                         placeholder="QR код не сгенерирован"
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
-                        className="pr-12 "
+                        className="pr-12"
                     />
                     <TooltipProvider>
                         <Tooltip>
@@ -114,24 +98,18 @@ const QRCodeGenerator = () => {
                                     <Copy className="w-5 h-5" />
                                 </Button>
                             </TooltipTrigger>
-                            <TooltipContent>
-                                Скопировать
-                            </TooltipContent>
+                            <TooltipContent>Скопировать</TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
                 </div>
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger asChild>
-                            {qrCodeUrl && (
-                                <Button onClick={handleShare} variant="ghost" size="icon" className="">
-                                    <Share className="w-5 h-5" />
-                                </Button>
-                            )}
+                            <Button onClick={handleShare} variant="ghost" size="icon">
+                                <Share className="w-5 h-5" />
+                            </Button>
                         </TooltipTrigger>
-                        <TooltipContent>
-                            Поделиться
-                        </TooltipContent>
+                        <TooltipContent>Поделиться</TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
             </div>

@@ -42,10 +42,12 @@ export default function OwnersLayout({ children }: { children: ReactNode }) {
                                 </Link>
                             </li>
                             <li>
+                            <Link href="/owners/workinghours">
                                 <Button variant="ghost" className="flex items-center space-x-2">
                                     <Clock />
                                     {isSidebarOpen && <span>Рабочие часы</span>}
                                 </Button>
+                                </Link>
                             </li>
                             <li>
                                 <Button variant="ghost" className="flex items-center space-x-2">

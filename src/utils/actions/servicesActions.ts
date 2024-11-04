@@ -110,4 +110,5 @@ export const deleteService = async (id: string) => {
   const supabase = createClient();
   const response = await supabase.from("services").delete().eq("id", id);
   console.log(response);
+  revalidatePath("/owners/services");
 };

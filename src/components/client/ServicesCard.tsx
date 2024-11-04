@@ -24,18 +24,18 @@ const ServicesCard = ({ service, index }: ServiceCardProps) => {
   return (
     <AccordionItem value={`item-${index}`} asChild className=" border rounded-md border-primary [&:not(:last-child)]:mb-4 ">
       <li>
-        <AccordionTrigger className="px-4 hover:no-underline rounded-md  hover:[&:not([data-state='open'])]:bg-gray-100 transition-colors duration-150">
+        <AccordionTrigger className="px-4 hover:no-underline rounded-md  hover:[&:not([data-state='open'])]:bg-accent hover:[&:not([data-state='open'])]:text-accent-foregroundtransition-colors duration-150">
           <span className="title-h3 first-letter:uppercase ">{name}</span>
           <span className="text-primary text-sm ml-auto mr-8">
             {formatPrice(price, 'ru-RU', 'RUB')}
           </span>
         </AccordionTrigger>
-        <AccordionContent >
-          <div className=" justify-between w-[100%] flex  flex-col gap-4">
-            <div className="flex flex-col gap-6 px-4">
+        <AccordionContent className="pb-0">
+          <div className=" justify-between w-[100%] flex  flex-col gap-4 rounded-b-md p-4 ">
+            <div className="flex flex-col gap-6 ">
               <p>{description}</p>
-              <p className="text-xs self-end text-gray-500">Длительность услуги: {`${hours} ${getHHEndings(hours)} ${min} ${getMMEndings(min)}`}</p>
             </div>
+            <p className="text-xs self-end text-gray-500">Длительность услуги: {`${hours} ${getHHEndings(hours)} ${min} ${getMMEndings(min)}`}</p>
             <div className="flex gap-1 justify-end  px-4">
               <ServiceContext.Provider value={{ defaultValues: { name, price, description, hours, minutes: min }, service_id: id }}>
                 <ServicesDialog mode="edit" />

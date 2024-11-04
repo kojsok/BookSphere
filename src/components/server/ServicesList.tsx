@@ -10,7 +10,6 @@ interface ServicesListProps {
 
 const ServicesList = async ({ className = '' }: ServicesListProps) => {
   const { data: services, error } = await readAllUserServices();
-
   if (error) {
     return <p>{error}</p>
   }

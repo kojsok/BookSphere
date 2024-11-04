@@ -34,6 +34,7 @@ export const addOrUpdateService = async (formData: FormData) => {
 
     //преобразуем форм дату в нужны объект и проверяем по схеме
     const service_id = formData.get("service_id");
+    console.log(service_id);
 
     const objFromFormData = {
       price: Number(formData.get("price")),
@@ -81,7 +82,8 @@ export const readAllUserServices = async (): Promise<{
   const { data, error } = await supabase
     .from("services")
     .select("*")
-    .eq("owner_id", id);
+    .eq("owner_id", id)
+    .order("created_at", { ascending: true });
   return {
     data,
     error: error

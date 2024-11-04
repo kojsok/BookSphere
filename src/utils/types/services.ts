@@ -21,4 +21,5 @@ export interface MutationService {
 
 export interface QueryService extends MutationService {
   id: string;
+  created_at: string;
 }

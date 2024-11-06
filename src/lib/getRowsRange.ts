@@ -15,8 +15,7 @@ export const getRowsRange = (
   offset: number,
   page: number
 ): { from: number; to: number } => {
-  let from = page * offset;
-  if (page > 0) from += 1;
+  const from = page * offset + page;
   const to = from + offset;
   return { from, to };
 };

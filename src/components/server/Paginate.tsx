@@ -5,10 +5,26 @@ import { cn } from "@/lib/utils";
 interface IPaginateProps {
   currentPage: number,
   totalRows: number | null,
+  rowsPerPage?: number
 }
-
-const Paginate = ({ currentPage, totalRows }: IPaginateProps) => {
-  const pagesCount = totalRows ? Math.ceil(totalRows / 5) : 1
+/**
+ * Pagination component that handles the navigation between pages for a given data set.
+ * It accepts the current page, the total number of rows, and an optional number of rows per page 
+ * to calculate the total number of pages, and renders pagination controls accordingly.
+ * 
+ * @param {number} currentPage - The current page number.
+ * @param {number | null} totalRows - The total number of rows in the dataset. 
+ * @param {number} [rowsPerPage=5] - The number of rows per page. Defaults to 5 if not provided.
+ * 
+ * @returns {JSX.Element} Pagination controls that allow navigating between pages.
+ * 
+ * @example
+ * ```tsx
+ * <Paginate currentPage={1} totalRows={100} rowsPerPage={10} />
+ * ```
+ */
+const Paginate = ({ currentPage, totalRows, rowsPerPage = 5 }: IPaginateProps): JSX.Element => {
+  const pagesCount = totalRows ? Math.ceil(totalRows / rowsPerPage) : 1
   let prev = currentPage - 1
   let next = currentPage + 1;
   if (prev < 0) prev = 0

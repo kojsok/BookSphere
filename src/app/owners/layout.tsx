@@ -42,18 +42,20 @@ export default function OwnersLayout({ children }: { children: ReactNode }) {
                                 </Link>
                             </li>
                             <li>
-                            <Link href="/owners/workinghours">
-                                <Button variant="ghost" className="flex items-center space-x-2">
-                                    <Clock />
-                                    {isSidebarOpen && <span>Рабочие часы</span>}
-                                </Button>
+                                <Link href="/owners/workinghours">
+                                    <Button variant="ghost" className="flex items-center space-x-2">
+                                        <Clock />
+                                        {isSidebarOpen && <span>Рабочие часы</span>}
+                                    </Button>
                                 </Link>
                             </li>
                             <li>
-                                <Button variant="ghost" className="flex items-center space-x-2">
-                                    <Calendar1 />
-                                    {isSidebarOpen && <span>Календарь</span>}
-                                </Button>
+                                <Link href="/owners/calendar">
+                                    <Button variant="ghost" className="flex items-center space-x-2">
+                                        <Calendar1 />
+                                        {isSidebarOpen && <span>Календарь</span>}
+                                    </Button>
+                                </Link>
                             </li>
                             <li>
                                 <Link href="/owners/qrcode">
@@ -74,43 +76,53 @@ export default function OwnersLayout({ children }: { children: ReactNode }) {
                         <div className="flex gap-8 md:gap-16 p-4 justify-between items-center">
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon" >
-                                        <House style={{ width: '24px', height: '24px' }} />
-                                    </Button>
+                                    <Link href="/owners/">
+                                        <Button variant="ghost" size="icon" >
+                                            <House style={{ width: '24px', height: '24px' }} />
+                                        </Button>
+                                    </Link>
                                 </TooltipTrigger>
                                 <TooltipContent>О компании</TooltipContent>
                             </Tooltip>
 
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon" >
-                                        <Briefcase style={{ width: '24px', height: '24px' }} />
-                                    </Button>
+                                    <Link href="/owners/services">
+                                        <Button variant="ghost" size="icon" >
+                                            <Briefcase style={{ width: '24px', height: '24px' }} />
+                                        </Button>
+                                    </Link>
                                 </TooltipTrigger>
                                 <TooltipContent>Услуги</TooltipContent>
                             </Tooltip>
 
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon">
-                                        <Clock style={{ width: '24px', height: '24px' }} />
-                                    </Button>
+                                    <Link href="/owners/workinghours">
+                                        <Button variant="ghost" size="icon">
+                                            <Clock style={{ width: '24px', height: '24px' }} />
+                                        </Button>
+                                    </Link>
                                 </TooltipTrigger>
                                 <TooltipContent>Рабочие часы</TooltipContent>
                             </Tooltip>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon">
-                                        <Calendar1 style={{ width: '24px', height: '24px' }} />
-                                    </Button>
+                                    <Link href="/owners/calendar">
+                                        <Button variant="ghost" size="icon">
+                                            <Calendar1 style={{ width: '24px', height: '24px' }} />
+                                        </Button>
+                                    </Link>
                                 </TooltipTrigger>
                                 <TooltipContent>Календарь</TooltipContent>
                             </Tooltip>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon">
-                                        <QrCode style={{ width: '24px', height: '24px' }} />
-                                    </Button>
+                                    <Link href="/owners/qrcode">
+                                        <Button variant="ghost" size="icon">
+                                            <QrCode style={{ width: '24px', height: '24px' }} />
+                                        </Button>
+                                    </Link>
                                 </TooltipTrigger>
                                 <TooltipContent>QR код</TooltipContent>
                             </Tooltip>

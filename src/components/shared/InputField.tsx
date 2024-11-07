@@ -65,7 +65,7 @@ interface InputFieldProps {
  */
 const InputField = ({ label = '', id, required = false, children, ...props }: InputFieldProps) => {
   return (
-    <div>
+    <div className="w-full">
       {label && <Label htmlFor={id} className="text-xs inline-block mb-1.5">
         {label}
         {required && <span> *</span>}

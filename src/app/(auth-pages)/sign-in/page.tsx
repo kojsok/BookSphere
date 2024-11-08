@@ -28,7 +28,7 @@ export default function Login({ searchParams }: { searchParams: Message }) {
         </SubmitButton>
 
         {/* Отображаем сообщения об ошибках */}
-        <FormMessage  message={searchParams} />
+        <FormMessage message={searchParams} />
 
         <p className="text-xs text-gray-500 flex justify-center">
           <Link

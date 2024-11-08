@@ -1,26 +1,20 @@
-// import {addOrUpdateOwner } from "@/utils/actions/addDataToTableDB";
-// import { getAllOwnersWithBusinessName, getAllOwnersWithEmail, getOwnerByBusinessName, getOwnerByPhone, getOwners } from "@/utils/actions/fetchAllFromTableDB";
+import ServicesDialog from "@/components/client/ServicesDialog";
+import ServicesList from "@/components/server/ServicesList";
+import { PageProps } from "@/utils/types/pageTypes";
 
-// import { getOwners } from "@/utils/actions/fetchAllFromTableDB";
 
+export default async function Services({ searchParams }: PageProps) {
+  const current = searchParams.page ? Number(searchParams.page) : 0
+  return (
+    <div className="w-full md:max-w-xl mx-auto px-6 py-10">
+      <h1 className="title-h1 mb-8">Услуги</h1>
+      <ServicesList className="mb-8" currentPage={current} />
+      <ServicesDialog
+        styling={{
+          trigger: 'mx-auto block mt-8'
+        }}
+      />
 
-export default async function Services() {
-
-//  const owners = await getOwners();
-  // getAllOwnersWithEmail();
-  // getOwnerByPhone("123 912");
-  // getAllOwnersWithBusinessName();
-  // getOwnerByBusinessName("примерчик");
-  // addOrUpdateOwner({id: "d768e530-d8ed-41dc-9c66-83fe9020dd3e", business_name: "примерчик", description: "мой примерчик", phone_number: "123456789"});
- 
-
- 
-  
-    return (
-      <div className="w-full max-w-full flex flex-col justify-center items-center">
-        <p className="text-2xl">This is an Services page</p>
-        {/* { owners?.map((owner) => <p key={owner.id}>{ owner.business_name }</p>) } */}
-      </div>
-    );
-  }
-  
+    </div>
+  );
+}
